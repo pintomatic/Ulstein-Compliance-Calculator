@@ -1,7 +1,5 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { EtsSummaryTool } from '@/components/ets-summary-tool';
-import { BookOpen, Download, Video, BrainCircuit } from 'lucide-react';
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { BookOpen, Download, Video } from 'lucide-react';
 
 const resources = [
   {
@@ -31,7 +29,7 @@ export function ResourcesSection() {
             Start with our free resources.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {resources.map((resource, index) => (
             <Card key={index} className="hover:shadow-md transition-shadow">
               <CardHeader className="flex-row items-center gap-4">
@@ -43,28 +41,6 @@ export function ResourcesSection() {
               </CardFooter>
             </Card>
           ))}
-           <Dialog>
-            <DialogTrigger asChild>
-                <Card className="hover:shadow-md transition-shadow cursor-pointer border-primary border-dashed">
-                <CardHeader className="flex-row items-center gap-4">
-                    <BrainCircuit className="w-8 h-8 text-primary" />
-                    <CardTitle className="text-base">Your Personal ETS Summary</CardTitle>
-                </CardHeader>
-                <CardFooter>
-                    <p className="text-sm font-medium text-primary">Use AI Tool</p>
-                </CardFooter>
-                </Card>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[625px]">
-                <DialogHeader>
-                    <DialogTitle>Personal EU ETS Impact Summary</DialogTitle>
-                    <DialogDescription>
-                        Enter your fleet details to get an AI-powered summary of how EU ETS changes will impact you.
-                    </DialogDescription>
-                </DialogHeader>
-                <EtsSummaryTool />
-            </DialogContent>
-           </Dialog>
         </div>
       </div>
     </section>
