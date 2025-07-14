@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { CountUp } from '@/components/count-up';
+import { trackGtmEvent } from '@/lib/gtm.ts';
 
 export function RoiCalculatorSection() {
   const [dailyFuel, setDailyFuel] = useState(35);
@@ -14,7 +15,14 @@ export function RoiCalculatorSection() {
 
   const paybackMonths = 2;
   const npvSaved = 6002813;
-  const fuelEfficiencyImprovement = 3;
+  
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value !== '' && !isNaN(Number(value))) {
+        setter(Number(value));
+    }
+    trackGtmEvent({ event: 'roi_calc_submit' });
+  };
 
   return (
     <section id="roi-calculator" className="py-12 md:py-20 bg-background">
@@ -30,15 +38,15 @@ export function RoiCalculatorSection() {
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="daily-fuel">Daily Fuel (t)</Label>
-                    <Input id="daily-fuel" type="number" value={dailyFuel} onChange={e => setDailyFuel(Number(e.target.value))} />
+                    <Input id="daily-fuel" type="number" value={dailyFuel} onChange={handleInputChange(setDailyFuel)} />
                   </div>
                   <div>
                     <Label htmlFor="fuel-price">Fuel Price ($)</Label>
-                    <Input id="fuel-price" type="number" value={fuelPrice} onChange={e => setFuelPrice(Number(e.target.value))} />
+                    <Input id="fuel-price" type="number" value={fuelPrice} onChange={handleInputChange(setFuelPrice)} />
                   </div>
                   <div>
                     <Label htmlFor="fleet-size">Fleet Size</Label>
-                    <Input id="fleet-size" type="number" value={fleetSize} onChange={e => setFleetSize(Number(e.target.value))} />
+                    <Input id="fleet-size" type="number" value={fleetSize} onChange={handleInputChange(setFleetSize)} />
                   </div>
                 </div>
                 <Accordion type="single" collapsible>
@@ -48,15 +56,15 @@ export function RoiCalculatorSection() {
                       <div className="grid sm:grid-cols-3 gap-4 pt-4">
                         <div>
                           <Label htmlFor="avg-speed">Avg Speed</Label>
-                          <Input id="avg-speed" placeholder="e.g., 15 knots" />
+                          <Input id="avg-speed" placeholder="e.g., 15 knots" readOnly className="bg-muted-foreground/10"/>
                         </div>
                         <div>
                           <Label htmlFor="engine-type">Engine Type</Label>
-                          <Input id="engine-type" placeholder="e.g., 2-stroke" />
+                          <Input id="engine-type" placeholder="e.g., 2-stroke" readOnly className="bg-muted-foreground/10"/>
                         </div>
                         <div>
                           <Label htmlFor="co2-factor">CO₂ Factor</Label>
-                          <Input id="co2-factor" placeholder="e.g., 3.114" />
+                          <Input id="co2-factor" placeholder="e.g., 3.114" readOnly className="bg-muted-foreground/10"/>
                         </div>
                       </div>
                     </AccordionContent>
@@ -81,7 +89,7 @@ export function RoiCalculatorSection() {
                 </Card>
             </div>
             <p className="text-center text-muted-foreground">
-              Based on {fuelEfficiencyImprovement}% fuel-efficiency improvement.
+              Based on 3% fuel-efficiency improvement.
             </p>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { CountUp } from '@/components/count-up';
+import { trackGtmEvent } from '@/lib/gtm.ts';
 
 const formatNumberWithThinSpace = (num: number): string => {
   return new Intl.NumberFormat('fr-FR').format(Math.round(num));
@@ -11,8 +12,13 @@ const formatNumberWithThinSpace = (num: number): string => {
 
 export function EtsCalculatorSection() {
   const [co2Emissions, setCo2Emissions] = useState(15000);
-  const allowancePrice = 85; // € per ton of CO2
+  const allowancePrice = 90.95; // € per ton of CO2
   const allowanceBill = co2Emissions * allowancePrice;
+
+  const handleSliderChange = (value: number[]) => {
+    setCo2Emissions(value[0]);
+    trackGtmEvent({ event: 'calc_slider_interact' });
+  };
 
   return (
     <section id="ets-calculator" className="py-12 md:py-20 bg-secondary">
@@ -33,7 +39,7 @@ export function EtsCalculatorSection() {
                   max={40000}
                   step={100}
                   value={[co2Emissions]}
-                  onValueChange={(value) => setCo2Emissions(value[0])}
+                  onValueChange={handleSliderChange}
                   className="mt-4"
                 />
                 <div className="flex justify-between text-sm text-muted-foreground mt-2">

@@ -12,14 +12,26 @@ export function StickyCta() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > 20) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+    let heroElement: HTMLElement | null;
 
+    const calculateVisibility = () => {
+      if (!heroElement) {
+        heroElement = document.getElementById('home');
+      }
+      if (heroElement) {
+        const heroBottom = heroElement.getBoundingClientRect().bottom;
+        if (heroBottom < -20) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
+      }
+    };
+  
+    const handleScroll = () => {
+      calculateVisibility();
+
+      const currentScrollY = window.scrollY;
       if (currentScrollY > lastScrollY) {
         setScrollDirection('down');
       } else {
@@ -29,13 +41,14 @@ export function StickyCta() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    calculateVisibility(); 
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [lastScrollY]);
 
-  const text = scrollDirection === 'down' ? 'Calculate ETS Cost' : 'Book Audit';
+  const text = scrollDirection === 'down' ? 'Calculate ETS' : 'Book Audit';
   const href = scrollDirection === 'down' ? '#ets-calculator' : '#audit-cta';
 
   return (

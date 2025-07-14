@@ -74,6 +74,7 @@ export function CaseStudiesSection() {
                         height={400}
                         className="rounded-t-lg object-cover aspect-[3/2]"
                         data-ai-hint={study.aiHint}
+                        loading="lazy"
                       />
                       <CardTitle className="mt-4">{study.vessel}</CardTitle>
                     </CardHeader>
@@ -96,8 +97,8 @@ export function CaseStudiesSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-24px] scale-125" />
-          <CarouselNext className="absolute right-[-24px] scale-125" />
+          <CarouselPrevious className="absolute left-[-12px] scale-75 md:scale-100" />
+          <CarouselNext className="absolute right-[-12px] scale-75 md:scale-100" />
         </Carousel>
       </div>
     </section>

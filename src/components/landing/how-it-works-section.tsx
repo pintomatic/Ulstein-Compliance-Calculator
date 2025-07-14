@@ -48,7 +48,7 @@ export function HowItWorksSection() {
                 <CardTitle>{step.title}</CardTitle>
               </CardHeader>
               <CardContent className="flex-grow">
-                 <Image src={step.image} alt={step.title} width={600} height={400} className="rounded-lg object-cover aspect-[3/2] mb-4" data-ai-hint={step.aiHint}/>
+                 <Image src={step.image} alt={step.title} width={600} height={400} className="rounded-lg object-cover aspect-[3/2] mb-4" data-ai-hint={step.aiHint} loading="lazy" />
                 <CardDescription>{step.description}</CardDescription>
               </CardContent>
             </Card>
