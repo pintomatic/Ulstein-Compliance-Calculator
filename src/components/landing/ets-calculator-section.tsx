@@ -10,10 +10,14 @@ const formatNumberWithThinSpace = (num: number): string => {
   return new Intl.NumberFormat('fr-FR').format(Math.round(num));
 };
 
+const roundToNearest50 = (num: number) => {
+  return Math.round(num / 50) * 50;
+};
+
 export function EtsCalculatorSection() {
   const [co2Emissions, setCo2Emissions] = useState(15000);
   const allowancePrice = 90.95; // € per ton of CO2
-  const allowanceBill = co2Emissions * allowancePrice;
+  const allowanceBill = roundToNearest50(co2Emissions * allowancePrice);
 
   const handleSliderChange = (value: number[]) => {
     setCo2Emissions(value[0]);
@@ -35,6 +39,7 @@ export function EtsCalculatorSection() {
                 </label>
                 <Slider
                   id="co2-slider"
+                  aria-label="Annual CO2 emissions in tonnes"
                   min={4000}
                   max={40000}
                   step={100}

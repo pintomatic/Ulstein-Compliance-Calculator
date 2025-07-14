@@ -15,11 +15,11 @@ export function CtaBannerSection() {
         <div className="bg-primary text-primary-foreground rounded-lg p-8 md:p-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold !text-primary-foreground">Ready to slash compliance cost?</h2>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" onClick={() => trackGtmEvent({ event: 'audit_form_submit' })}>
+            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" onClick={() => trackGtmEvent({ event: 'audit_form_submit' })} aria-label="Book fleet audit">
               <Link href="#">Book 20-min Fleet Audit</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="bg-primary hover:bg-accent hover:text-accent-foreground border-primary-foreground text-primary-foreground" onClick={handleDownloadClick}>
-              <a href="/Ulstein_Compliance_Checklist.pdf" download>
+            <Button asChild size="lg" variant="outline" className="bg-primary hover:bg-accent hover:text-accent-foreground border-primary-foreground text-primary-foreground" onClick={handleDownloadClick} aria-label="Download compliance checklist">
+              <a href="/Ulstein_Compliance_Checklist_v1.0.pdf" download>
                 Download Compliance Checklist (PDF) <Download className="ml-2 h-4 w-4" />
               </a>
             </Button>

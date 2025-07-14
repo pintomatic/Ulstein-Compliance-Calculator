@@ -13,7 +13,7 @@ export function HeroSection() {
           <p className="mt-4 text-2xl md:text-3xl lg:text-4xl font-semibold !text-primary">
             Stop paying for exhaust.
           </p>
-          <p className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-200">
+          <p className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-200/90">
             Ulstein Digital installs a class-verified data spine before launch—compliance becomes a one-click task.
           </p>
           <div className="mt-8">

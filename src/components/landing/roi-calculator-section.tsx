@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,21 +8,51 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { CountUp } from '@/components/count-up';
 import { trackGtmEvent } from '@/lib/gtm.ts';
 
+const formatNpv = (npv: number) => {
+  if (npv < 500000) {
+    return npv.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  return Math.round(npv).toLocaleString('fr-FR');
+};
+
+
 export function RoiCalculatorSection() {
   const [dailyFuel, setDailyFuel] = useState(35);
   const [fuelPrice, setFuelPrice] = useState(650);
   const [fleetSize, setFleetSize] = useState(5);
 
   const paybackMonths = 2;
-  const npvSaved = 6002813;
+
+  const npvSaved = useMemo(() => {
+    // A simple calculation based on inputs, replace with real formula if needed
+    const dailySavings = (dailyFuel * 0.03) * fuelPrice * fleetSize;
+    const yearlySavings = dailySavings * 365;
+    // Simplified NPV calculation for demonstration
+    const discountRate = 0.05;
+    let totalNpv = 0;
+    for (let i = 1; i <= 5; i++) {
+        totalNpv += yearlySavings / Math.pow(1 + discountRate, i);
+    }
+    return totalNpv;
+  }, [dailyFuel, fuelPrice, fleetSize]);
+
   
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    // Keep last valid value if field is emptied
     if (value !== '' && !isNaN(Number(value))) {
         setter(Number(value));
     }
     trackGtmEvent({ event: 'roi_calc_submit' });
   };
+
+  const formattedNpv = useMemo(() => {
+     if (npvSaved < 500000) {
+      return npvSaved.toFixed(2);
+    }
+    return Math.round(npvSaved);
+  }, [npvSaved]);
+
 
   return (
     <section id="roi-calculator" className="py-12 md:py-20 bg-background">
@@ -84,7 +114,7 @@ export function RoiCalculatorSection() {
                 <Card className="text-center col-span-2 sm:col-span-1">
                     <CardHeader><CardTitle>5-Year NPV Saved</CardTitle></CardHeader>
                     <CardContent className="text-5xl font-extrabold text-primary">
-                      <CountUp end={npvSaved} prefix="€" />
+                      <CountUp end={Number(formattedNpv)} prefix="€" />
                     </CardContent>
                 </Card>
             </div>
