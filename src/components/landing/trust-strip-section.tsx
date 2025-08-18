@@ -5,7 +5,6 @@ const logos = [
   { name: 'Ulstein', component: Icons.ulstein },
   { name: 'DNV', component: Icons.dnv },
   { name: 'Maritime CleanTech', component: Icons.maritimeCleanTech },
-  { name: 'Schottel', component: Icons.schottel },
 ];
 
 export function TrustStripSection() {
