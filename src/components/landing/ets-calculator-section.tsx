@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { CountUp } from '@/components/count-up';
-import { trackGtmEvent } from '@/lib/gtm';
+import { trackGtmEvent } from '@/lib/gtm.ts';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
 

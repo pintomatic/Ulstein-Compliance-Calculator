@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { CountUp } from '@/components/count-up';
-import { trackGtmEvent } from '@/lib/gtm';
+import { trackGtmEvent } from '@/lib/gtm.ts';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
 

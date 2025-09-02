@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { trackGtmEvent } from '@/lib/gtm';
+import { trackGtmEvent } from '@/lib/gtm.ts';
 import { explainerContent } from '@/lib/explainer-content';
 import { cn } from '@/lib/utils';
 

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Download } from 'lucide-react';
-import { trackGtmEvent } from '@/lib/gtm';
+import { trackGtmEvent } from '@/lib/gtm.ts';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
 
