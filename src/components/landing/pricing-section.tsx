@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
+import { InfoIconTooltip } from './info-icon-tooltip';
+import { explainerContent } from '@/lib/explainer-content';
 
 const TickItem = ({ children }: { children: React.ReactNode }) => (
   <li className="flex items-center gap-2">
@@ -10,11 +12,21 @@ const TickItem = ({ children }: { children: React.ReactNode }) => (
 );
 
 export function PricingSection() {
+  const explainerData = explainerContent.find(b => b.id === 'pricing');
+
   return (
-    <section className="py-12 md:py-20 bg-secondary">
+    <section id="pricing" className="py-12 md:py-20 bg-secondary">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Pricing Snapshot</h2>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-2">
+            Pricing Snapshot
+            {explainerData && (
+              <InfoIconTooltip
+                blockId={explainerData.id}
+                tooltipText={explainerData.microcopy}
+              />
+            )}
+          </h2>
           <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-xl">
             Transparent pricing for full compliance and optimization.
           </p>

@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Package, Cloud, LayoutDashboard } from 'lucide-react';
+import { InfoIconTooltip } from './info-icon-tooltip';
+import { explainerContent } from '@/lib/explainer-content';
 
 const steps = [
   {
@@ -27,11 +29,21 @@ const steps = [
 ];
 
 export function HowItWorksSection() {
+  const explainerData = explainerContent.find(b => b.id === 'how-it-works');
+
   return (
-    <section className="py-12 md:py-20 bg-background">
+    <section id="how-it-works" className="py-12 md:py-20 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">How It Works</h2>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-2">
+            How It Works
+            {explainerData && (
+              <InfoIconTooltip
+                blockId={explainerData.id}
+                tooltipText={explainerData.microcopy}
+              />
+            )}
+          </h2>
           <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-xl">
             A simple three-step process from hardware to insights.
           </p>

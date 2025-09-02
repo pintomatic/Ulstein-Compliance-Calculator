@@ -3,17 +3,30 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Download } from 'lucide-react';
-import { trackGtmEvent } from '@/lib/gtm.ts';
+import { trackGtmEvent } from '@/lib/gtm';
+import { InfoIconTooltip } from './info-icon-tooltip';
+import { explainerContent } from '@/lib/explainer-content';
 
 export function CtaBannerSection() {
   const handleDownloadClick = () => {
     trackGtmEvent({ event: 'checklist_download' });
   };
+  
+  const explainerData = explainerContent.find(b => b.id === 'cta');
+  
   return (
     <section id="audit-cta" className="py-12 md:py-20 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="bg-primary text-primary-foreground rounded-lg p-8 md:p-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold !text-primary-foreground">Ready to slash compliance cost?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold !text-primary-foreground flex items-center justify-center gap-2">
+            Ready to slash compliance cost?
+            {explainerData && (
+              <InfoIconTooltip
+                blockId={explainerData.id}
+                tooltipText={explainerData.microcopy}
+              />
+            )}
+          </h2>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" onClick={() => trackGtmEvent({ event: 'audit_form_submit' })} aria-label="Book fleet audit">
               <Link href="#">Book 20-min Fleet Audit</Link>

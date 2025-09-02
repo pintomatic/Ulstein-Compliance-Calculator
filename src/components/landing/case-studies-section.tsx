@@ -6,6 +6,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { Badge } from '@/components/ui/badge';
+import { InfoIconTooltip } from './info-icon-tooltip';
+import { explainerContent } from '@/lib/explainer-content';
 
 const caseStudies = [
   {
@@ -50,10 +52,23 @@ export function CaseStudiesSection() {
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true })
   );
+  
+  const explainerData = explainerContent.find(b => b.id === 'case-studies');
 
   return (
-    <section className="py-12 md:py-20 bg-secondary">
+    <section id="case-studies" className="py-12 md:py-20 bg-secondary">
       <div className="container mx-auto px-4 md:px-6">
+        {explainerData && (
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-2">
+              Proof This Works
+              <InfoIconTooltip
+                blockId={explainerData.id}
+                tooltipText={explainerData.microcopy}
+              />
+            </h2>
+          </div>
+        )}
         <Carousel
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}

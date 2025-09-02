@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2 } from 'lucide-react';
+import { InfoIconTooltip } from './info-icon-tooltip';
+import { explainerContent } from '@/lib/explainer-content';
 
 const timelineData = [
   {
@@ -20,9 +22,22 @@ const timelineData = [
 ];
 
 export function TimelineSection() {
+  const explainerData = explainerContent.find(b => b.id === 'timeline');
+
   return (
-    <section className="py-12 md:py-20 bg-background">
+    <section id="timeline" className="py-12 md:py-20 bg-background">
       <div className="container mx-auto px-4 md:px-6">
+        {explainerData && (
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-2">
+                Regulatory Pressure Timeline
+                <InfoIconTooltip
+                  blockId={explainerData.id}
+                  tooltipText={explainerData.microcopy}
+                />
+              </h2>
+            </div>
+          )}
         <div className="grid md:grid-cols-3 gap-8">
           {timelineData.map((item) => (
             <div key={item.year} className="flex items-start space-x-4">

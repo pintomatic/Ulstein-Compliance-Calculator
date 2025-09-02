@@ -11,6 +11,7 @@ import { ResourcesSection } from '@/components/landing/resources-section';
 import { PageFooter } from '@/components/landing/footer';
 import { StickyCta } from '@/components/sticky-cta';
 import { Separator } from '@/components/ui/separator';
+import { ExplainerSidebar } from '@/components/explainer-sidebar';
 
 export default function Home() {
   return (
@@ -32,6 +33,7 @@ export default function Home() {
       </main>
       <PageFooter />
       <StickyCta />
+      <ExplainerSidebar />
     </div>
   );
 }

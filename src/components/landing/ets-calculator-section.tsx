@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { CountUp } from '@/components/count-up';
-import { trackGtmEvent } from '@/lib/gtm.ts';
+import { trackGtmEvent } from '@/lib/gtm';
+import { InfoIconTooltip } from './info-icon-tooltip';
+import { explainerContent } from '@/lib/explainer-content';
 
 const formatNumberWithThinSpace = (num: number): string => {
   return new Intl.NumberFormat('fr-FR').format(Math.round(num));
@@ -18,6 +20,8 @@ export function EtsCalculatorSection() {
   const [co2Emissions, setCo2Emissions] = useState(15000);
   const allowancePrice = 90.95; // € per ton of CO2
   const allowanceBill = roundToNearest50(co2Emissions * allowancePrice);
+  
+  const explainerData = explainerContent.find(b => b.id === 'ets-calculator');
 
   const handleSliderChange = (value: number[]) => {
     setCo2Emissions(value[0]);
@@ -29,7 +33,15 @@ export function EtsCalculatorSection() {
       <div className="container mx-auto px-4 md:px-6">
         <Card className="max-w-3xl mx-auto shadow-lg">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold">Interactive ETS Cost Slider</CardTitle>
+            <CardTitle className="text-3xl font-bold flex items-center justify-center gap-2">
+              Interactive ETS Cost Slider
+               {explainerData && (
+                <InfoIconTooltip
+                  blockId={explainerData.id}
+                  tooltipText={explainerData.microcopy}
+                />
+              )}
+            </CardTitle>
           </CardHeader>
           <CardContent className="px-8 md:px-12 py-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

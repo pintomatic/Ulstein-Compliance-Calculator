@@ -6,7 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { CountUp } from '@/components/count-up';
-import { trackGtmEvent } from '@/lib/gtm.ts';
+import { trackGtmEvent } from '@/lib/gtm';
+import { InfoIconTooltip } from './info-icon-tooltip';
+import { explainerContent } from '@/lib/explainer-content';
 
 const formatNpv = (npv: number) => {
   if (npv < 500000) {
@@ -22,6 +24,8 @@ export function RoiCalculatorSection() {
   const [fleetSize, setFleetSize] = useState(5);
 
   const paybackMonths = 2;
+  
+  const explainerData = explainerContent.find(b => b.id === 'roi-calculator');
 
   const npvSaved = useMemo(() => {
     // A simple calculation based on inputs, replace with real formula if needed
@@ -59,7 +63,15 @@ export function RoiCalculatorSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">ROI Calculator</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex items-center gap-2">
+              ROI Calculator
+              {explainerData && (
+                <InfoIconTooltip
+                  blockId={explainerData.id}
+                  tooltipText={explainerData.microcopy}
+                />
+              )}
+            </h2>
             <p className="text-muted-foreground md:text-xl">
               See your potential savings. Enter your fleet's numbers to calculate your return on investment.
             </p>
