@@ -7,6 +7,8 @@ import { CountUp } from '@/components/count-up';
 import { trackGtmEvent } from '@/lib/gtm.ts';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
+import { ALLOWANCE_PRICE_USD, ETS_CAGR, SYMBOL } from '@/lib/currency';
+import { formatMoney } from '@/lib/currency';
 
 const formatNumberWithThinSpace = (num: number): string => {
   return new Intl.NumberFormat('fr-FR').format(Math.round(num));
@@ -18,7 +20,7 @@ const roundToNearest50 = (num: number) => {
 
 export function EtsCalculatorSection() {
   const [co2Emissions, setCo2Emissions] = useState(15000);
-  const allowancePrice = 90.95; // € per ton of CO2
+  const allowancePrice = ALLOWANCE_PRICE_USD;
   const allowanceBill = roundToNearest50(co2Emissions * allowancePrice);
   
   const explainerData = explainerContent.find(b => b.id === 'ets-calculator');
@@ -66,16 +68,16 @@ export function EtsCalculatorSection() {
                 </div>
               </div>
               <div className="text-center bg-primary/10 p-6 rounded-lg">
-                <p className="text-lg font-medium text-primary">Allowance Bill (€ / year)</p>
+                <p className="text-lg font-medium text-primary">Allowance Bill ({SYMBOL} / year)</p>
                 <div className="text-4xl md:text-5xl font-extrabold text-primary mt-2">
-                   <CountUp end={allowanceBill} prefix="€" />
+                   <CountUp end={allowanceBill} prefix={SYMBOL} isMoney={true} />
                 </div>
               </div>
             </div>
           </CardContent>
           <CardFooter>
             <p className="text-xs text-muted-foreground w-full text-center">
-              *Assumes allowance price escalation 7% CAGR.
+              *Assumes allowance price escalation {ETS_CAGR * 100}% CAGR.
             </p>
           </CardFooter>
         </Card>

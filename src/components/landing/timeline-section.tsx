@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2 } from 'lucide-react';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
+import { ALLOWANCE_PRICE_USD, SYMBOL } from '@/lib/currency';
 
 const timelineData = [
   {
@@ -11,7 +12,7 @@ const timelineData = [
   },
   {
     year: 'EU ETS 2024',
-    title: '€85/t allowances due Q1-2025',
+    title: `${SYMBOL}${ALLOWANCE_PRICE_USD}/t allowances due Q1-2025`,
     description: 'Direct financial impact on voyages',
   },
   {

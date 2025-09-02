@@ -12,7 +12,7 @@ export function HeroSection() {
       <div className="container mx-auto px-4 md:px-6 text-center text-white">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight !text-white flex items-center justify-center gap-2">
-            EU ETS fines can drain €1.3m per ship.
+            EU ETS fines can drain $1.3m per ship.
             {explainerData && (
               <InfoIconTooltip
                 blockId={explainerData.id}

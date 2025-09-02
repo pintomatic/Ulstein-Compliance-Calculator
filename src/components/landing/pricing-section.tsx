@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
+import { MODULE_PRICING_USD, SYMBOL } from '@/lib/currency';
 
 const TickItem = ({ children }: { children: React.ReactNode }) => (
   <li className="flex items-center gap-2">
@@ -28,7 +29,7 @@ export function PricingSection() {
             )}
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-xl">
-            Transparent pricing for full compliance and optimization.
+            Transparent pricing for full compliance and optimization. All figures in USD.
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
@@ -36,7 +37,7 @@ export function PricingSection() {
             <CardHeader>
               <CardTitle>Compliance Core</CardTitle>
               <CardDescription>Essential tools for regulatory adherence.</CardDescription>
-              <p className="text-4xl font-bold pt-4">€15k<span className="text-lg font-normal text-muted-foreground"> /vessel-year</span></p>
+              <p className="text-4xl font-bold pt-4">{SYMBOL}{MODULE_PRICING_USD.complianceCore / 1000}k<span className="text-lg font-normal text-muted-foreground"> /vessel-year</span></p>
             </CardHeader>
             <CardContent className="flex-grow">
               <ul className="space-y-2">
@@ -55,7 +56,7 @@ export function PricingSection() {
             <CardHeader>
               <CardTitle>Fuel-Plus</CardTitle>
               <CardDescription>Unlock significant fuel savings and performance.</CardDescription>
-               <p className="text-4xl font-bold pt-4">+€5k<span className="text-lg font-normal text-muted-foreground"> /vessel-year</span></p>
+               <p className="text-4xl font-bold pt-4">+{SYMBOL}{MODULE_PRICING_USD.fuelPlusAddOn / 1000}k<span className="text-lg font-normal text-muted-foreground"> /vessel-year</span></p>
             </CardHeader>
             <CardContent className="flex-grow">
               <ul className="space-y-2">
@@ -70,10 +71,10 @@ export function PricingSection() {
             <CardHeader>
               <CardTitle>One-off Hardware</CardTitle>
               <CardDescription>BLUE BOX™ data collection unit.</CardDescription>
-              <p className="text-4xl font-bold pt-4">€30k</p>
+              <p className="text-4xl font-bold pt-4">{SYMBOL}{MODULE_PRICING_USD.hardwareOneOff / 1000}k</p>
             </CardHeader>
             <CardContent className="flex-grow">
-                <p className="text-muted-foreground">Approximately €6k per year amortised over 5 years.</p>
+                <p className="text-muted-foreground">Approximately {SYMBOL}{Math.round(MODULE_PRICING_USD.hardwareOneOff / 5 / 1000)}k per year amortised over 5 years.</p>
             </CardContent>
             <CardFooter>
                  <p className="text-xs text-muted-foreground">Prices exclude VAT and local taxes.</p>

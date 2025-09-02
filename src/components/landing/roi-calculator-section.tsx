@@ -9,12 +9,13 @@ import { CountUp } from '@/components/count-up';
 import { trackGtmEvent } from '@/lib/gtm.ts';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
+import { DISCOUNT_RATE, SYMBOL, formatMoney } from '@/lib/currency';
 
 const formatNpv = (npv: number) => {
   if (npv < 500000) {
-    return npv.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return formatMoney(npv, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
-  return Math.round(npv).toLocaleString('fr-FR');
+  return formatMoney(npv);
 };
 
 
@@ -26,11 +27,9 @@ export function RoiCalculatorSection() {
   const explainerData = explainerContent.find(b => b.id === 'roi-calculator');
 
   const npvSaved = useMemo(() => {
-    // A simple calculation based on inputs, replace with real formula if needed
     const dailySavings = (dailyFuel * 0.03) * fuelPrice * fleetSize;
     const yearlySavings = dailySavings * 365;
-    // Simplified NPV calculation for demonstration
-    const discountRate = 0.05;
+    const discountRate = DISCOUNT_RATE;
     let totalNpv = 0;
     for (let i = 1; i <= 5; i++) {
         totalNpv += yearlySavings / Math.pow(1 + discountRate, i);
@@ -50,7 +49,7 @@ export function RoiCalculatorSection() {
 
   const formattedNpv = useMemo(() => {
      if (npvSaved < 500000) {
-      return npvSaved.toFixed(2);
+      return Number(npvSaved.toFixed(2));
     }
     return Math.round(npvSaved);
   }, [npvSaved]);
@@ -81,7 +80,7 @@ export function RoiCalculatorSection() {
                     <Input id="daily-fuel" type="number" value={dailyFuel} onChange={handleInputChange(setDailyFuel)} />
                   </div>
                   <div>
-                    <Label htmlFor="fuel-price">Fuel Price ($)</Label>
+                    <Label htmlFor="fuel-price">Fuel Price ({SYMBOL})</Label>
                     <Input id="fuel-price" type="number" value={fuelPrice} onChange={handleInputChange(setFuelPrice)} />
                   </div>
                   <div>
@@ -117,7 +116,7 @@ export function RoiCalculatorSection() {
             <Card className="text-center w-full max-w-sm">
                 <CardHeader><CardTitle>5-Year NPV Saved</CardTitle></CardHeader>
                 <CardContent className="text-5xl font-extrabold text-primary">
-                  <CountUp end={Number(formattedNpv)} prefix="€" />
+                  <CountUp end={formattedNpv} prefix={SYMBOL} isMoney={true} />
                 </CardContent>
             </Card>
             <p className="text-center text-muted-foreground">

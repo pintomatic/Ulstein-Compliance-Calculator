@@ -80,9 +80,9 @@ export const explainerContent = [
     title: 'What you pay for',
     microcopy: 'Indicative subscription and hardware.',
     bullets: [
-      'Compliance Core (indicative €15k/year): MRV, CII, ETS reporting.',
-      'Optional Fuel-Plus (indicative +€5k/year): design-twin insights and optimization analytics.',
-      'One-off hardware (indicative €30k): factory install reduces retrofit friction and downtime.',
+      'Compliance Core (indicative $15k/year): MRV, CII, ETS reporting.',
+      'Optional Fuel-Plus (indicative +$5k/year): design-twin insights and optimization analytics.',
+      'One-off hardware (indicative $30k): factory install reduces retrofit friction and downtime.',
     ],
   },
   {
