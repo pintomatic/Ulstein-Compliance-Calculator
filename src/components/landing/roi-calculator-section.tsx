@@ -23,8 +23,6 @@ export function RoiCalculatorSection() {
   const [fuelPrice, setFuelPrice] = useState(650);
   const [fleetSize, setFleetSize] = useState(5);
 
-  const paybackMonths = 2;
-  
   const explainerData = explainerContent.find(b => b.id === 'roi-calculator');
 
   const npvSaved = useMemo(() => {
@@ -64,7 +62,7 @@ export function RoiCalculatorSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-4">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex items-center gap-2">
-              ROI Calculator
+              Savings Calculator
               {explainerData && (
                 <InfoIconTooltip
                   blockId={explainerData.id}
@@ -73,7 +71,7 @@ export function RoiCalculatorSection() {
               )}
             </h2>
             <p className="text-muted-foreground md:text-xl">
-              See your potential savings. Enter your fleet's numbers to calculate your return on investment.
+              See your potential savings. Enter your fleet's numbers to calculate your potential fuel savings.
             </p>
             <Card>
               <CardContent className="p-6 space-y-4">
@@ -115,21 +113,13 @@ export function RoiCalculatorSection() {
               </CardContent>
             </Card>
           </div>
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-6">
-                <Card className="text-center">
-                    <CardHeader><CardTitle>Payback Months</CardTitle></CardHeader>
-                    <CardContent className="text-5xl font-extrabold text-primary">
-                      <CountUp end={paybackMonths} />
-                    </CardContent>
-                </Card>
-                <Card className="text-center col-span-2 sm:col-span-1">
-                    <CardHeader><CardTitle>5-Year NPV Saved</CardTitle></CardHeader>
-                    <CardContent className="text-5xl font-extrabold text-primary">
-                      <CountUp end={Number(formattedNpv)} prefix="€" />
-                    </CardContent>
-                </Card>
-            </div>
+          <div className="space-y-6 flex flex-col items-center">
+            <Card className="text-center w-full max-w-sm">
+                <CardHeader><CardTitle>5-Year NPV Saved</CardTitle></CardHeader>
+                <CardContent className="text-5xl font-extrabold text-primary">
+                  <CountUp end={Number(formattedNpv)} prefix="€" />
+                </CardContent>
+            </Card>
             <p className="text-center text-muted-foreground">
               Based on 3% fuel-efficiency improvement.
             </p>
