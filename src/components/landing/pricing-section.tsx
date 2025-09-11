@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
-import { MODULE_PRICING_USD, SYMBOL } from '@/lib/currency';
+import { MODULE_PRICING_USD, SYMBOL, formatMoney } from '@/lib/currency';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
 
@@ -38,11 +38,11 @@ export function PricingSection() {
                <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-lg font-semibold">Hardware (one-off)</h3>
-                  <p className="text-3xl font-bold text-primary">{SYMBOL}{MODULE_PRICING_USD.hardwareOneOff.toLocaleString()}</p>
+                  <p className="text-3xl font-bold text-primary">{formatMoney(MODULE_PRICING_USD.hardwareOneOff)}</p>
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold">Subscription (annual)</h3>
-                  <p className="text-3xl font-bold text-primary">{SYMBOL}{MODULE_PRICING_USD.complianceCore.toLocaleString()}</p>
+                  <p className="text-3xl font-bold text-primary">{formatMoney(MODULE_PRICING_USD.complianceCore)}</p>
                   <p className="text-sm text-muted-foreground">Includes data + ecometer + dashboards.</p>
                 </div>
               </div>
@@ -60,5 +60,3 @@ export function PricingSection() {
     </section>
   );
 }
-
-    

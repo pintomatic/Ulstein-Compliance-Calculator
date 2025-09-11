@@ -2,7 +2,7 @@
 
 import { Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { trackGtmEvent } from '@/lib/gtm.ts';
+import { trackGtmEvent } from '@/lib/gtm';
 
 type InfoIconTooltipProps = {
   blockId: string;
