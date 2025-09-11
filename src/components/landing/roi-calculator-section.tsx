@@ -122,8 +122,12 @@ export function RoiCalculatorSection() {
 
                     {isAdvancedMode && (
                         <div className="space-y-4 pt-4 border-t">
+                             <div className="space-y-2">
+                                <Label htmlFor="ets-price" className="flex items-center">ETS Price ({SYMBOL}/t CO₂)<InfoPopover content="Market-based carbon price per tonne of CO₂. Edit to match your hedging view." /></Label>
+                                <Input id="ets-price" type="number" value={etsPrice} onChange={(e) => setEtsPrice(Number(e.target.value))} />
+                            </div>
                             <div className="space-y-2">
-                                <Label htmlFor="emission-factor" className="flex items-center">Emission Factor (t CO₂/t fuel) <InfoPopover content="Typical range for marine fuels is 3.1-3.2." /></Label>
+                                <Label htmlFor="emission-factor" className="flex items-center">Emission Factor (t CO₂/t fuel) <InfoPopover content="t CO₂ emitted per tonne of fuel. Typical range for marine fuels is 3.1-3.2." /></Label>
                                 <Input id="emission-factor" type="number" value={emissionFactor} onChange={(e) => setEmissionFactor(Number(e.target.value))} />
                             </div>
                             <div className="space-y-2">
@@ -151,7 +155,7 @@ export function RoiCalculatorSection() {
                   <>
                   <Card className="sm:col-span-2">
                       <CardHeader>
-                          <CardTitle className="flex items-center">5-Year NPV <InfoPopover content="Net Present Value discounts future savings to today's dollars." /></CardTitle>
+                          <CardTitle className="flex items-center">5-Year NPV <InfoPopover content="Net Present Value discounts future savings to today's dollars. Default 10%." /></CardTitle>
                           <div className="flex items-center space-x-2 pt-2">
                               <Switch id="npv-mode" checked={includeSubscription} onCheckedChange={setIncludeSubscription} />
                               <Label htmlFor="npv-mode" className="text-sm">Include subscription & hardware costs</Label>

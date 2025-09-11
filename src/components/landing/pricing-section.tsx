@@ -36,7 +36,7 @@ export function PricingSection() {
           <Card className="flex flex-col">
             <CardHeader>
               <CardTitle>Compliance Core</CardTitle>
-              <CardDescription>MRV/CII/ETS automation</CardDescription>
+              <CardDescription>MRV/CII/ETS automation, data, ecometer, and dashboards.</CardDescription>
               <p className="text-4xl font-bold pt-4">{SYMBOL}{MODULE_PRICING_USD.complianceCore / 1000}k<span className="text-lg font-normal text-muted-foreground"> /year</span></p>
             </CardHeader>
             <CardContent className="flex-grow">
@@ -70,7 +70,7 @@ export function PricingSection() {
           <Card className="flex flex-col md:col-span-2 lg:col-span-1">
             <CardHeader>
               <CardTitle>One-off Hardware</CardTitle>
-              <CardDescription>BLUE BOX™ data collection unit.</CardDescription>
+              <CardDescription>One-off hardware cost: BLUE BOX™ data collection unit.</CardDescription>
               <p className="text-4xl font-bold pt-4">{SYMBOL}{MODULE_PRICING_USD.hardwareOneOff}</p>
             </CardHeader>
             <CardContent className="flex-grow">
