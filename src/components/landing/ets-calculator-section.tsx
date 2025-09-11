@@ -95,7 +95,6 @@ export function EtsCalculatorSection() {
                         variant={escalationRate === preset.value ? "default" : "outline"}
                         size="sm"
                         onClick={() => setEscalationRate(preset.value)}
-                        className="flex-1"
                       >
                         {preset.label} ({(preset.value * 100).toFixed(1)}%)
                       </Button>
