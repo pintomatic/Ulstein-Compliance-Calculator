@@ -46,7 +46,7 @@ export function EtsCalculatorSection() {
     <section id="ets-calculator" className="py-12 md:py-20 bg-secondary">
       <div className="container mx-auto px-4 md:px-6">
         <Card className="max-w-5xl mx-auto shadow-lg">
-          <CardHeader className="text-center pb-4">
+          <CardHeader className="text-center pb-6">
             <CardTitle className="text-3xl font-bold flex items-center justify-center gap-2">
               Interactive ETS Cost Calculator
               {explainerData && (
@@ -56,13 +56,13 @@ export function EtsCalculatorSection() {
                 />
               )}
             </CardTitle>
-            <CardDescription>Estimate your fleet&apos;s exposure to carbon costs.</CardDescription>
+            <CardDescription className="pt-2">Estimate your fleet&apos;s exposure to carbon costs.</CardDescription>
           </CardHeader>
           <CardContent className="px-4 md:px-8 py-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-              {/* Inputs Column */}
-              <div className="lg:col-span-1 space-y-6">
-                <div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+              {/* Left Column: Inputs */}
+              <div className="space-y-8">
+                <div className="space-y-4">
                   <Label htmlFor="co2-slider" className="text-sm font-medium text-muted-foreground">
                     Annual CO₂ Emissions (tonnes)
                   </Label>
@@ -76,25 +76,26 @@ export function EtsCalculatorSection() {
                     onValueChange={(val) => setCo2Emissions(val[0])}
                     className="mt-2"
                   />
-                  <div className="flex justify-between text-sm text-muted-foreground mt-1">
+                  <div className="flex justify-between text-sm text-muted-foreground mt-1 px-1">
                     <span>4,000 t</span>
                     <span className="font-bold text-lg text-foreground">{formatNumberWithThinSpace(co2Emissions)} t</span>
                     <span>40,000 t</span>
                   </div>
                 </div>
-                <div>
+                <div className="space-y-2">
                    <Label htmlFor="ets-price">ETS Allowance Price ({SYMBOL}/t CO₂)</Label>
                    <Input id="ets-price" type="number" value={allowancePrice} onChange={(e) => setAllowancePrice(Number(e.target.value))} />
                 </div>
-                 <div>
+                 <div className="space-y-3">
                   <Label className="text-sm font-medium text-muted-foreground">Escalation Rate (CAGR)</Label>
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-2">
                     {escalationPresets.map(preset => (
                       <Button 
                         key={preset.label} 
                         variant={escalationRate === preset.value ? "default" : "outline"}
                         size="sm"
                         onClick={() => setEscalationRate(preset.value)}
+                        className="px-3 py-1 text-xs"
                       >
                         {preset.label} ({(preset.value * 100).toFixed(1)}%)
                       </Button>
@@ -103,18 +104,19 @@ export function EtsCalculatorSection() {
                 </div>
               </div>
 
-              {/* Outputs Column */}
-              <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="text-center bg-primary/10 p-6 rounded-lg flex flex-col justify-center">
+              {/* Right Column: Outputs */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-8">
+                <div className="bg-primary/10 p-6 rounded-lg flex flex-col justify-center text-center min-h-[180px]">
                   <p className="text-lg font-medium text-primary">Allowance Bill ({SYMBOL}/year)</p>
-                  <div className="text-4xl md:text-5xl font-extrabold text-primary mt-2">
+                  <div className="text-4xl md:text-5xl font-extrabold text-primary my-2">
                      <CountUp end={allowanceBill} prefix={SYMBOL} isMoney={true} />
                   </div>
+                   <p className="text-xs text-primary/80">Based on inputs at left</p>
                 </div>
                 <div className="bg-primary/10 p-4 rounded-lg">
                   <p className="text-lg font-medium text-primary text-center mb-2">5-Year Projection</p>
                   <ResponsiveContainer width="100%" height={150}>
-                    <LineChart data={projectionData} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
+                    <LineChart data={projectionData} margin={{ top: 5, right: 25, left: 25, bottom: 5 }}>
                       <XAxis dataKey="year" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} tickLine={false} axisLine={false} />
                       <YAxis tickFormatter={(value) => formatMoney(value as number, { notation: 'compact' })} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} tickLine={false} axisLine={false} width={50} />
                       <Tooltip 
