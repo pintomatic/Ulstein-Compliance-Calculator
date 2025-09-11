@@ -45,7 +45,7 @@ export function EtsCalculatorSection() {
   return (
     <section id="ets-calculator" className="py-12 md:py-20 bg-secondary">
       <div className="container mx-auto px-4 md:px-6">
-        <Card className="max-w-4xl mx-auto shadow-lg">
+        <Card className="max-w-5xl mx-auto shadow-lg">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-3xl font-bold flex items-center justify-center gap-2">
               Interactive ETS Cost Calculator
