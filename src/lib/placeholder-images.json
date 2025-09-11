@@ -13,21 +13,21 @@
   "caseStudies": [
     {
       "vessel": "PSV Ulstein SX190",
-      "src": "https://picsum.photos/seed/2/600/400",
+      "src": "https://ulstein.com/uploads/images/News/_1200x630_crop_center-center_82_none/SX190-hydrogen-vessel.jpg?mtime=1681298629",
       "width": 600,
       "height": 400,
       "aiHint": "platform supply vessel"
     },
     {
       "vessel": "OSV Ulstein PX121",
-      "src": "https://picsum.photos/seed/3/600/400",
+      "src": "https://ulstein.com/uploads/images/Vessel-Designs/PX121/_800x418_crop_center-center_82_none/PX121-ULSTEIN-March24-InAir-SB-Fore-Low.jpg?mtime=1712126477",
       "width": 600,
       "height": 400,
       "aiHint": "offshore supply vessel"
     },
     {
       "vessel": "Construction Vessel CX102",
-      "src": "https://picsum.photos/seed/4/600/400",
+      "src": "https://ulstein.com/uploads/images/Vessel-Designs/FX102/FX102-ULSTEIN-July23-InAir-Planview-PS-Side.jpg",
       "width": 600,
       "height": 400,
       "aiHint": "construction vessel"
@@ -36,21 +36,21 @@
   "howItWorks": [
     {
       "title": "Factory-installed BLUE BOX™",
-      "src": "https://picsum.photos/seed/5/600/400",
+      "src": "https://f.nordiskemedier.dk/28uix5gx3bjg7xpb.jpg",
       "width": 600,
       "height": 400,
       "aiHint": "server rack ship"
     },
     {
       "title": "Secure cloud verification",
-      "src": "https://picsum.photos/seed/6/600/400",
+      "src": "https://cdn.sanity.io/images/yk5gp8um/prod/e1ca83b7f1e12265c1d73a3cbe02829e480f4378-1736x973.jpg?w=1710&h=600&auto=format",
       "width": 600,
       "height": 400,
       "aiHint": "cloud data"
     },
     {
       "title": "Live compliance & fuel dashboard",
-      "src": "https://picsum.photos/seed/7/600/400",
+      "src": "https://www.starcompliance.com/wp-content/uploads/2024/03/Compliance-Dashboard-Angle-blog-2.png",
       "width": 600,
       "height": 400,
       "aiHint": "dashboard analytics"
