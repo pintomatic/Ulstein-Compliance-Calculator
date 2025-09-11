@@ -8,42 +8,43 @@ import Autoplay from 'embla-carousel-autoplay';
 import { Badge } from '@/components/ui/badge';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
+import { SYMBOL } from '@/lib/currency';
 
 const caseStudies = [
   {
     vessel: 'PSV Ulstein SX190',
     stats: [
       { value: '3%', label: 'Fuel Cut' },
-      { value: '1.5h', label: 'MRV Close' },
+      { value: `1.5h`, label: 'MRV Close' },
       { value: '8-month', label: 'Payback' },
     ],
     details: 'Admin time 40 h → 1.5 h/quarter',
     certificate: 'DNV certificate on file',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://picsum.photos/seed/2/600/400',
     aiHint: 'platform supply vessel',
   },
   {
     vessel: 'OSV Ulstein PX121',
     stats: [
       { value: '4%', label: 'Fuel Cut' },
-      { value: '1.2h', label: 'MRV Close' },
+      { value: `1.2h`, label: 'MRV Close' },
       { value: '6-month', label: 'Payback' },
     ],
     details: 'Achieved compliance with zero downtime',
     certificate: 'DNV certificate on file',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://picsum.photos/seed/3/600/400',
     aiHint: 'offshore supply vessel',
   },
   {
     vessel: 'Construction Vessel CX102',
     stats: [
       { value: '5%', label: 'Fuel Cut' },
-      { value: '1.0h', label: 'MRV Close' },
+      { value: `1.0h`, label: 'MRV Close' },
       { value: '7-month', label: 'Payback' },
     ],
     details: 'Optimized for complex operational profiles',
     certificate: 'DNV certificate on file',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://picsum.photos/seed/4/600/400',
     aiHint: 'construction vessel',
   },
 ];
@@ -74,11 +75,14 @@ export function CaseStudiesSection() {
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
           className="w-full"
-          opts={{ loop: true }}
+          opts={{ loop: true,
+            role: "group",
+            "aria-roledescription": "carousel"
+           }}
         >
           <CarouselContent className="-ml-4">
             {caseStudies.map((study, index) => (
-              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3" aria-roledescription="slide" aria-label={`Slide ${index + 1} of ${caseStudies.length}`}>
                 <div className="p-1">
                   <Card className="h-full flex flex-col">
                     <CardHeader>

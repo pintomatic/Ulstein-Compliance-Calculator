@@ -1,66 +1,86 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Switch } from '@/components/ui/switch';
 import { CountUp } from '@/components/count-up';
-import { trackGtmEvent } from '@/lib/gtm.ts';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { HelpCircle } from 'lucide-react';
+import { DISCOUNT_RATE, SYMBOL, formatMoney, ALLOWANCE_PRICE_USD, MODULE_PRICING_USD } from '@/lib/currency';
+import { cn } from '@/lib/utils';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
-import { DISCOUNT_RATE, SYMBOL, formatMoney } from '@/lib/currency';
 
-const formatNpv = (npv: number) => {
-  if (npv < 500000) {
-    return formatMoney(npv, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-  return formatMoney(npv);
-};
 
+const InfoPopover = ({ content }: { content: React.ReactNode }) => (
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button variant="ghost" size="icon" className="h-4 w-4 ml-2 text-muted-foreground cursor-help">
+        <HelpCircle className="h-4 w-4" />
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent className="w-80 text-sm">{content}</PopoverContent>
+  </Popover>
+);
 
 export function RoiCalculatorSection() {
-  const [dailyFuel, setDailyFuel] = useState(35);
-  const [fuelPrice, setFuelPrice] = useState(650);
-  const [fleetSize, setFleetSize] = useState(5);
+  // Mode Toggles
+  const [isAdvancedMode, setIsAdvancedMode] = useState(false);
+  const [includeSubscription, setIncludeSubscription] = useState(false);
 
+  // Inputs
+  const [annualFuel, setAnnualFuel] = useState(10000);
+  const [fuelPrice, setFuelPrice] = useState(650);
+  const [efficiencyGain, setEfficiencyGain] = useState(5);
+  const [etsPrice, setEtsPrice] = useState(ALLOWANCE_PRICE_USD);
+  const [emissionFactor, setEmissionFactor] = useState(3.2);
+  const [discountRate, setDiscountRate] = useState(DISCOUNT_RATE);
+
+  const { hardwareOneOff: hardwareCost, complianceCore: subscriptionCost } = MODULE_PRICING_USD;
   const explainerData = explainerContent.find(b => b.id === 'roi-calculator');
 
-  const npvSaved = useMemo(() => {
-    const dailySavings = (dailyFuel * 0.03) * fuelPrice * fleetSize;
-    const yearlySavings = dailySavings * 365;
-    const discountRate = DISCOUNT_RATE;
-    let totalNpv = 0;
-    for (let i = 1; i <= 5; i++) {
-        totalNpv += yearlySavings / Math.pow(1 + discountRate, i);
-    }
-    return totalNpv;
-  }, [dailyFuel, fuelPrice, fleetSize]);
+  // Calculations
+  const calculations = useMemo(() => {
+    const annualFuelCost = annualFuel * fuelPrice;
+    const annualFuelSavings = annualFuelCost * (efficiencyGain / 100);
+    const etsSaved = (annualFuel * (efficiencyGain / 100)) * emissionFactor * etsPrice;
+    const totalAnnualSavings = annualFuelSavings + (isAdvancedMode ? etsSaved : 0);
+    const netAnnualSavings = totalAnnualSavings - subscriptionCost;
 
-  
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Keep last valid value if field is emptied
-    if (value !== '' && !isNaN(Number(value))) {
-        setter(Number(value));
+    let paybackMonths = 0;
+    if (netAnnualSavings > 0) {
+      paybackMonths = hardwareCost / (netAnnualSavings / 12);
     }
-    trackGtmEvent({ event: 'roi_calc_submit' });
-  };
 
-  const formattedNpv = useMemo(() => {
-     if (npvSaved < 500000) {
-      return Number(npvSaved.toFixed(2));
+    const npvSimple = Array.from({ length: 5 }).reduce((sum, _, i) => {
+      return sum + annualFuelSavings / Math.pow(1 + discountRate, i + 1);
+    }, 0);
+
+    const npvFull = Array.from({ length: 5 }).reduce((sum, _, i) => {
+        return sum + netAnnualSavings / Math.pow(1 + discountRate, i + 1);
+    }, 0) - hardwareCost;
+
+    let finalNpv = includeSubscription ? npvFull : npvSimple;
+
+    if (finalNpv < 500000) {
+        finalNpv = Math.round(finalNpv / 100) * 100;
+    } else {
+        finalNpv = Math.round(finalNpv);
     }
-    return Math.round(npvSaved);
-  }, [npvSaved]);
 
+
+    return { annualFuelSavings, totalAnnualSavings, netAnnualSavings, paybackMonths, finalNpv };
+  }, [annualFuel, fuelPrice, efficiencyGain, etsPrice, emissionFactor, discountRate, isAdvancedMode, includeSubscription, hardwareCost, subscriptionCost]);
 
   return (
     <section id="roi-calculator" className="py-12 md:py-20 bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex items-center gap-2">
+        <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-2">
               Savings Calculator
               {explainerData && (
                 <InfoIconTooltip
@@ -69,61 +89,103 @@ export function RoiCalculatorSection() {
                 />
               )}
             </h2>
-            <p className="text-muted-foreground md:text-xl">
-              See your potential savings. Enter your fleet's numbers to calculate your potential fuel savings.
-            </p>
-            <Card>
-              <CardContent className="p-6 space-y-4">
-                <div className="grid sm:grid-cols-3 gap-4">
-                  <div>
-                    <Label htmlFor="daily-fuel">Daily Fuel (t)</Label>
-                    <Input id="daily-fuel" type="number" value={dailyFuel} onChange={handleInputChange(setDailyFuel)} />
-                  </div>
-                  <div>
-                    <Label htmlFor="fuel-price">Fuel Price ({SYMBOL})</Label>
-                    <Input id="fuel-price" type="number" value={fuelPrice} onChange={handleInputChange(setFuelPrice)} />
-                  </div>
-                  <div>
-                    <Label htmlFor="fleet-size">Fleet Size</Label>
-                    <Input id="fleet-size" type="number" value={fleetSize} onChange={handleInputChange(setFleetSize)} />
-                  </div>
-                </div>
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger className="text-sm text-primary hover:no-underline">Use my real numbers</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="grid sm:grid-cols-3 gap-4 pt-4">
-                        <div>
-                          <Label htmlFor="avg-speed">Avg Speed</Label>
-                          <Input id="avg-speed" placeholder="e.g., 15 knots" readOnly className="bg-muted-foreground/10"/>
+            <div className="flex items-center justify-center mt-4">
+                <Label htmlFor="advanced-mode-switch" className="mr-2">Simple</Label>
+                <Switch 
+                    id="advanced-mode-switch" 
+                    checked={isAdvancedMode} 
+                    onCheckedChange={setIsAdvancedMode}
+                    aria-label="Toggle advanced savings calculator mode"
+                />
+                <Label htmlFor="advanced-mode-switch" className="ml-2">Advanced</Label>
+            </div>
+        </div>
+
+        <div className="grid lg:grid-cols-5 gap-8 items-start">
+            {/* --- INPUTS --- */}
+            <Card className="lg:col-span-2">
+                <CardHeader><CardTitle>Your Fleet Inputs</CardTitle></CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="annual-fuel">Annual Fuel Consumption (t/year)</Label>
+                        <Input id="annual-fuel" type="number" value={annualFuel} onChange={(e) => setAnnualFuel(Number(e.target.value))} />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="fuel-price">Fuel Price ({SYMBOL}/tonne)</Label>
+                        <Input id="fuel-price" type="number" value={fuelPrice} onChange={(e) => setFuelPrice(Number(e.target.value))} />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="efficiency-gain">Efficiency Gain (%)</Label>
+                         <Slider id="efficiency-gain" min={1} max={10} step={0.5} value={[efficiencyGain]} onValueChange={(val) => setEfficiencyGain(val[0])} />
+                         <p className="text-center text-sm font-medium">{efficiencyGain}%</p>
+                    </div>
+
+                    {isAdvancedMode && (
+                        <div className="space-y-4 pt-4 border-t">
+                            <div className="space-y-2">
+                                <Label htmlFor="emission-factor" className="flex items-center">Emission Factor (t CO₂/t fuel) <InfoPopover content="Typical range for marine fuels is 3.1-3.2." /></Label>
+                                <Input id="emission-factor" type="number" value={emissionFactor} onChange={(e) => setEmissionFactor(Number(e.target.value))} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="discount-rate" className="flex items-center">Discount Rate for NPV <InfoPopover content="Discounts future savings to today's dollars. Default 10%." /></Label>
+                                <Input id="discount-rate" type="number" value={discountRate * 100} onChange={(e) => setDiscountRate(Number(e.target.value) / 100)} />
+                            </div>
                         </div>
-                        <div>
-                          <Label htmlFor="engine-type">Engine Type</Label>
-                          <Input id="engine-type" placeholder="e.g., 2-stroke" readOnly className="bg-muted-foreground/10"/>
-                        </div>
-                        <div>
-                          <Label htmlFor="co2-factor">CO₂ Factor</Label>
-                          <Input id="co2-factor" placeholder="e.g., 3.114" readOnly className="bg-muted-foreground/10"/>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="space-y-6 flex flex-col items-center">
-            <Card className="text-center w-full max-w-sm">
-                <CardHeader><CardTitle>5-Year NPV Saved</CardTitle></CardHeader>
-                <CardContent className="text-5xl font-extrabold text-primary">
-                  <CountUp end={formattedNpv} prefix={SYMBOL} isMoney={true} />
+                    )}
                 </CardContent>
             </Card>
-            <p className="text-center text-muted-foreground">
-              Based on 3% fuel-efficiency improvement.
-            </p>
-          </div>
+
+            {/* --- OUTPUTS --- */}
+            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <Card className={cn("sm:col-span-2 lg:col-span-3", !isAdvancedMode && "lg:col-span-3 sm:col-span-2")}>
+                    <CardHeader>
+                        <CardTitle>Estimated Annual Savings</CardTitle>
+                        {isAdvancedMode && <CardDescription>Fuel Savings + ETS Co-benefit</CardDescription>}
+                    </CardHeader>
+                    <CardContent className="text-4xl font-extrabold text-primary">
+                        <CountUp end={isAdvancedMode ? calculations.totalAnnualSavings : calculations.annualFuelSavings} prefix={SYMBOL} isMoney={true} />
+                    </CardContent>
+                </Card>
+                
+                {isAdvancedMode && (
+                  <>
+                  <Card className="sm:col-span-2">
+                      <CardHeader>
+                          <CardTitle className="flex items-center">5-Year NPV <InfoPopover content="Net Present Value discounts future savings to today's dollars." /></CardTitle>
+                          <div className="flex items-center space-x-2 pt-2">
+                              <Switch id="npv-mode" checked={includeSubscription} onCheckedChange={setIncludeSubscription} />
+                              <Label htmlFor="npv-mode" className="text-sm">Include subscription & hardware costs</Label>
+                          </div>
+                      </CardHeader>
+                      <CardContent className="text-4xl font-extrabold text-primary">
+                          {calculations.finalNpv > 0 ? (
+                              <CountUp end={calculations.finalNpv} prefix={SYMBOL} isMoney={true} />
+                          ) : (
+                              <span className="text-destructive">–</span>
+                          )}
+                      </CardContent>
+                  </Card>
+                  <Card>
+                      <CardHeader>
+                          <CardTitle className="flex items-center">Payback <InfoPopover content="Months for hardware to 'earn back' via savings." /></CardTitle>
+                      </CardHeader>
+                      <CardContent className="text-4xl font-extrabold text-primary">
+                          {calculations.paybackMonths > 0 && calculations.paybackMonths <= 60 ? (
+                            <>
+                              <CountUp end={calculations.paybackMonths} suffix=" mo" />
+                            </>
+                          ) : (
+                            <span className="text-muted-foreground text-2xl" title="Increase efficiency % or review inputs">> 60 mo</span>
+                          )}
+                      </CardContent>
+                  </Card>
+                  </>
+                )}
+            </div>
         </div>
+        <p className="text-center text-muted-foreground text-sm mt-8">
+            Illustrative only. Savings from 3–10% efficiency are typical; your results vary by route, sea state, fouling, and operations. We’ll validate with your logs and noon reports.
+        </p>
       </div>
     </section>
   );

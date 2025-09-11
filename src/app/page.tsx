@@ -11,16 +11,15 @@ import { ResourcesSection } from '@/components/landing/resources-section';
 import { PageFooter } from '@/components/landing/footer';
 import { StickyCta } from '@/components/sticky-cta';
 import { Separator } from '@/components/ui/separator';
-import { ExplainerSidebar } from '@/components/explainer-sidebar';
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <main className="flex-1">
         <HeroSection />
-        <TimelineSection />
         <EtsCalculatorSection />
         <RoiCalculatorSection />
+        <TimelineSection />
         <CaseStudiesSection />
         <HowItWorksSection />
         <PricingSection />
@@ -33,7 +32,6 @@ export default function Home() {
       </main>
       <PageFooter />
       <StickyCta />
-      <ExplainerSidebar />
     </div>
   );
 }

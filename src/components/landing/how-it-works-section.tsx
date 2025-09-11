@@ -9,21 +9,21 @@ const steps = [
     icon: Package,
     title: 'Factory-installed BLUE BOX™',
     description: 'Hardware integrated during construction for seamless data collection.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://picsum.photos/seed/5/600/400',
     aiHint: 'server rack ship'
   },
   {
     icon: Cloud,
     title: 'Secure cloud verification',
     description: 'DNV Veracity cloud platform with certified data pipeline.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://picsum.photos/seed/6/600/400',
     aiHint: 'cloud data'
   },
   {
     icon: LayoutDashboard,
     title: 'Live compliance & fuel dashboard',
     description: 'Real-time monitoring with automated regulatory reporting.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://picsum.photos/seed/7/600/400',
     aiHint: 'dashboard analytics'
   },
 ];

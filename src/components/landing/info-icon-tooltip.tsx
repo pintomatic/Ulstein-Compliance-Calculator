@@ -1,39 +1,38 @@
 'use client';
 
-import { HelpCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { triggerExplainer } from '../explainer-sidebar';
-import { cn } from '@/lib/utils';
+import { trackGtmEvent } from '@/lib/gtm.ts';
 
-interface InfoIconTooltipProps {
+type InfoIconTooltipProps = {
   blockId: string;
   tooltipText: string;
-  className?: string;
-}
+};
 
-export function InfoIconTooltip({ blockId, tooltipText, className }: InfoIconTooltipProps) {
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    triggerExplainer(blockId);
+export function InfoIconTooltip({ blockId, tooltipText }: InfoIconTooltipProps) {
+  const handleOpen = () => {
+    trackGtmEvent({ event: 'explainer_block_view', block_id: blockId });
   };
 
   return (
     <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn('h-6 w-6 text-muted-foreground hover:text-primary cursor-help', className)}
-            onClick={handleClick}
-            aria-label={`Learn more about ${tooltipText}`}
-          >
-            <HelpCircle className="h-4 w-4" />
-          </Button>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger
+          asChild
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const event = new CustomEvent('open-explainer', { detail: { blockId } });
+            window.dispatchEvent(event);
+            handleOpen();
+          }}
+          aria-label={`More information about ${blockId.replace(/-/g, ' ')}`}
+        >
+          <button className="text-primary hover:text-accent transition-colors">
+            <Info className="h-4 w-4" />
+          </button>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent side="top" align="center" className="max-w-xs text-center">
           <p>{tooltipText}</p>
         </TooltipContent>
       </Tooltip>
