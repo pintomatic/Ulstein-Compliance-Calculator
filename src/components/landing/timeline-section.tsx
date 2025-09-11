@@ -12,7 +12,7 @@ const timelineData = [
   },
   {
     year: 'EU ETS 2024',
-    title: `${SYMBOL}${ALLOWANCE_PRICE_USD}/t allowances due Q1-2025`,
+    title: `${SYMBOL}${ALLOWANCE_PRICE_USD.toFixed(0)}/t allowances due Q1-2025`,
     description: 'Direct financial impact on voyages. Source price in EUR; shown in USD for budgeting.',
   },
   {
@@ -59,5 +59,3 @@ export function TimelineSection() {
     </section>
   );
 }
-
-    
