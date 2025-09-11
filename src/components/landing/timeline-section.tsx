@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle2 } from 'lucide-react';
+import { CircleCheck } from 'lucide-react';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
 import { ALLOWANCE_PRICE_USD, SYMBOL } from '@/lib/currency';
@@ -13,7 +13,7 @@ const timelineData = [
   {
     year: 'EU ETS 2024',
     title: `${SYMBOL}${ALLOWANCE_PRICE_USD}/t allowances due Q1-2025`,
-    description: 'Direct financial impact on voyages',
+    description: 'Direct financial impact on voyages. Source price in EUR; shown in USD for budgeting.',
   },
   {
     year: 'FuelEU 2025',
@@ -44,7 +44,7 @@ export function TimelineSection() {
             <div key={item.year} className="flex items-start space-x-4">
                <div className="flex-shrink-0">
                 <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
-                  <CheckCircle2 className="h-6 w-6 text-primary-foreground" />
+                  <CircleCheck className="h-6 w-6 text-primary-foreground" />
                 </div>
               </div>
               <div>
@@ -59,3 +59,5 @@ export function TimelineSection() {
     </section>
   );
 }
+
+    

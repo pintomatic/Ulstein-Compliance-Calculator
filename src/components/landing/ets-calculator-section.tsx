@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { CountUp } from '@/components/count-up';
 import { Button } from '@/components/ui/button';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { ALLOWANCE_PRICE_USD, ETS_CAGR, SYMBOL, formatMoney } from '@/lib/currency';
+import { ALLOWANCE_PRICE_EUR, ETS_CAGR, formatMoney, EUR_TO_USD } from '@/lib/currency';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
 
@@ -24,15 +24,18 @@ const escalationPresets = [
 
 export function EtsCalculatorSection() {
   const [co2Emissions, setCo2Emissions] = useState(15000);
-  const [allowancePrice, setAllowancePrice] = useState(ALLOWANCE_PRICE_USD);
+  const [etsPriceEur, setEtsPriceEur] = useState(ALLOWANCE_PRICE_EUR);
+  const [fxRate, setFxRate] = useState(EUR_TO_USD);
   const [escalationRate, setEscalationRate] = useState(ETS_CAGR);
   
   const explainerData = explainerContent.find(b => b.id === 'ets-calculator');
 
+  const allowancePriceUsd = useMemo(() => etsPriceEur * fxRate, [etsPriceEur, fxRate]);
+
   const allowanceBill = useMemo(() => {
-    const rawBill = co2Emissions * allowancePrice;
+    const rawBill = co2Emissions * allowancePriceUsd;
     return Math.round(rawBill / 50) * 50;
-  }, [co2Emissions, allowancePrice]);
+  }, [co2Emissions, allowancePriceUsd]);
 
   const projectionData = useMemo(() => {
     return Array.from({ length: 5 }, (_, i) => {
@@ -82,10 +85,21 @@ export function EtsCalculatorSection() {
                     <span>40,000 t</span>
                   </div>
                 </div>
-                <div className="space-y-2">
-                   <Label htmlFor="ets-price">ETS Allowance Price ({SYMBOL}/t CO₂)</Label>
-                   <Input id="ets-price" type="number" value={allowancePrice} onChange={(e) => setAllowancePrice(Number(e.target.value))} />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="ets-price-eur">ETS price (€/t CO₂)</Label>
+                    <Input id="ets-price-eur" type="number" value={etsPriceEur} onChange={(e) => setEtsPriceEur(Number(e.target.value))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="fx-rate">FX rate (USD/EUR)</Label>
+                    <Input id="fx-rate" type="number" value={fxRate} onChange={(e) => setFxRate(Number(e.target.value))} />
+                  </div>
                 </div>
+                 <div className="text-sm text-center text-muted-foreground -mt-4">
+                  Computed price (USD/t CO₂): {formatMoney(allowancePriceUsd, { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
+
                  <div className="space-y-3">
                   <Label className="text-sm font-medium text-muted-foreground">Escalation Rate (CAGR)</Label>
                   <div className="flex gap-2">
@@ -107,9 +121,9 @@ export function EtsCalculatorSection() {
               {/* Right Column: Outputs */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-8">
                 <div className="bg-primary/10 p-6 rounded-lg flex flex-col justify-center text-center min-h-[180px]">
-                  <p className="text-lg font-medium text-primary">Allowance Bill ({SYMBOL}/year)</p>
+                  <p className="text-lg font-medium text-primary">Allowance Bill ($/year)</p>
                   <div className="text-4xl md:text-5xl font-extrabold text-primary my-2">
-                     <CountUp end={allowanceBill} prefix={SYMBOL} isMoney={true} />
+                     <CountUp end={allowanceBill} prefix="$" isMoney={true} />
                   </div>
                    <p className="text-xs text-primary/80">Based on inputs at left</p>
                 </div>
@@ -137,7 +151,7 @@ export function EtsCalculatorSection() {
           </CardContent>
           <CardFooter>
             <p className="text-xs text-muted-foreground w-full text-center">
-              Assumptions: ETS settled in EUR; values shown in USD for budgeting. Escalation is a market scenario, not guidance.
+              Assumptions: ETS settled in EUR. Source price shown in EUR; bill displayed in USD using FX above. Escalation is a market scenario, not guidance.
             </p>
           </CardFooter>
         </Card>
