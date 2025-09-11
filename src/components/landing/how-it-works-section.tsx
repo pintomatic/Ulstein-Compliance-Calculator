@@ -3,28 +3,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Package, Cloud, LayoutDashboard } from 'lucide-react';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
+import imageData from '@/lib/placeholder-images.json';
 
 const steps = [
   {
     icon: Package,
     title: 'Factory-installed BLUE BOX™',
     description: 'Hardware integrated during construction for seamless data collection.',
-    image: 'https://picsum.photos/seed/5/600/400',
-    aiHint: 'server rack ship'
   },
   {
     icon: Cloud,
     title: 'Secure cloud verification',
     description: 'DNV Veracity cloud platform with certified data pipeline.',
-    image: 'https://picsum.photos/seed/6/600/400',
-    aiHint: 'cloud data'
   },
   {
     icon: LayoutDashboard,
     title: 'Live compliance & fuel dashboard',
     description: 'Real-time monitoring with automated regulatory reporting.',
-    image: 'https://picsum.photos/seed/7/600/400',
-    aiHint: 'dashboard analytics'
   },
 ];
 
@@ -49,7 +44,9 @@ export function HowItWorksSection() {
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
-          {steps.map((step, index) => (
+          {steps.map((step, index) => {
+            const image = imageData.howItWorks[index];
+            return (
             <Card key={index} className="text-center flex flex-col">
               <CardHeader className="items-center">
                  <div className="flex-shrink-0 mb-4">
@@ -60,11 +57,11 @@ export function HowItWorksSection() {
                 <CardTitle>{step.title}</CardTitle>
               </CardHeader>
               <CardContent className="flex-grow">
-                 <Image src={step.image} alt={step.title} width={600} height={400} className="rounded-lg object-cover aspect-[3/2] mb-4" data-ai-hint={step.aiHint} loading="lazy" />
+                 <Image src={image.src} alt={step.title} width={image.width} height={image.height} className="rounded-lg object-cover aspect-[3/2] mb-4" data-ai-hint={image.aiHint} loading="lazy" />
                 <CardDescription>{step.description}</CardDescription>
               </CardContent>
             </Card>
-          ))}
+          )})}
         </div>
       </div>
     </section>

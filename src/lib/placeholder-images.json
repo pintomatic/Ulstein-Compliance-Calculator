@@ -1,0 +1,59 @@
+
+{
+  "ogImage": {
+    "src": "https://picsum.photos/seed/og/1200/630",
+    "width": 1200,
+    "height": 630,
+    "alt": "Ulstein Digital EU ETS Compliance Solution"
+  },
+  "hero": {
+    "src": "https://picsum.photos/seed/1/1920/1080",
+    "aiHint": "ship ocean"
+  },
+  "caseStudies": [
+    {
+      "vessel": "PSV Ulstein SX190",
+      "src": "https://picsum.photos/seed/2/600/400",
+      "width": 600,
+      "height": 400,
+      "aiHint": "platform supply vessel"
+    },
+    {
+      "vessel": "OSV Ulstein PX121",
+      "src": "https://picsum.photos/seed/3/600/400",
+      "width": 600,
+      "height": 400,
+      "aiHint": "offshore supply vessel"
+    },
+    {
+      "vessel": "Construction Vessel CX102",
+      "src": "https://picsum.photos/seed/4/600/400",
+      "width": 600,
+      "height": 400,
+      "aiHint": "construction vessel"
+    }
+  ],
+  "howItWorks": [
+    {
+      "title": "Factory-installed BLUE BOX™",
+      "src": "https://picsum.photos/seed/5/600/400",
+      "width": 600,
+      "height": 400,
+      "aiHint": "server rack ship"
+    },
+    {
+      "title": "Secure cloud verification",
+      "src": "https://picsum.photos/seed/6/600/400",
+      "width": 600,
+      "height": 400,
+      "aiHint": "cloud data"
+    },
+    {
+      "title": "Live compliance & fuel dashboard",
+      "src": "https://picsum.photos/seed/7/600/400",
+      "width": 600,
+      "height": 400,
+      "aiHint": "dashboard analytics"
+    }
+  ]
+}

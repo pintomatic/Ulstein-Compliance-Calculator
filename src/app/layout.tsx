@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { GtmScript } from '@/lib/gtm.tsx';
 import { CookieConsent } from '@/components/cookie-consent';
+import imageData from '@/lib/placeholder-images.json';
 
 export const metadata: Metadata = {
   title: 'Ulstein Digital | Class-Verified EU ETS Compliance',
@@ -12,10 +13,10 @@ export const metadata: Metadata = {
     description: 'Automate MRV, CII and EU ETS reporting. Cut CO₂ allowance cost and fuel burn with Ulstein Digital’s yard-installed BLUE BOX™.',
     images: [
       {
-        url: 'https://placehold.co/1200x630.png',
-        width: 1200,
-        height: 630,
-        alt: 'Ulstein Digital EU ETS Compliance Solution',
+        url: imageData.ogImage.src,
+        width: imageData.ogImage.width,
+        height: imageData.ogImage.height,
+        alt: imageData.ogImage.alt,
       },
     ],
   },

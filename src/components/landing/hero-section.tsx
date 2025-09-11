@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { ArrowDown } from 'lucide-react';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
+import imageData from '@/lib/placeholder-images.json';
 
 export function HeroSection() {
   const explainerData = explainerContent.find(b => b.id === 'hero');
   return (
-    <section id="hero" className="relative w-full py-24 md:py-32 lg:py-40 bg-cover bg-center" style={{backgroundImage: "url('https://picsum.photos/seed/1/1920/1080')", backgroundBlendMode: 'overlay', backgroundColor: 'rgba(0,32,63,0.7)'}} data-ai-hint="ship ocean">
+    <section id="hero" className="relative w-full py-24 md:py-32 lg:py-40 bg-cover bg-center" style={{backgroundImage: `url('${imageData.hero.src}')`, backgroundBlendMode: 'overlay', backgroundColor: 'rgba(0,32,63,0.7)'}} data-ai-hint={imageData.hero.aiHint}>
       <div className="container mx-auto px-4 md:px-6 text-center text-white">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight !text-white flex items-center justify-center gap-2">

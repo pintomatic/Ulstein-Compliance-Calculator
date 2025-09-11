@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { InfoIconTooltip } from './info-icon-tooltip';
 import { explainerContent } from '@/lib/explainer-content';
 import { SYMBOL } from '@/lib/currency';
+import imageData from '@/lib/placeholder-images.json';
 
 const caseStudies = [
   {
@@ -20,8 +21,6 @@ const caseStudies = [
     ],
     details: 'Admin time 40 h → 1.5 h/quarter',
     certificate: 'DNV certificate on file',
-    image: 'https://picsum.photos/seed/2/600/400',
-    aiHint: 'platform supply vessel',
   },
   {
     vessel: 'OSV Ulstein PX121',
@@ -32,8 +31,6 @@ const caseStudies = [
     ],
     details: 'Achieved compliance with zero downtime',
     certificate: 'DNV certificate on file',
-    image: 'https://picsum.photos/seed/3/600/400',
-    aiHint: 'offshore supply vessel',
   },
   {
     vessel: 'Construction Vessel CX102',
@@ -44,8 +41,6 @@ const caseStudies = [
     ],
     details: 'Optimized for complex operational profiles',
     certificate: 'DNV certificate on file',
-    image: 'https://picsum.photos/seed/4/600/400',
-    aiHint: 'construction vessel',
   },
 ];
 
@@ -81,18 +76,20 @@ export function CaseStudiesSection() {
            }}
         >
           <CarouselContent className="-ml-4">
-            {caseStudies.map((study, index) => (
+            {caseStudies.map((study, index) => {
+              const image = imageData.caseStudies[index];
+              return (
               <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3" aria-roledescription="slide" aria-label={`Slide ${index + 1} of ${caseStudies.length}`}>
                 <div className="p-1">
                   <Card className="h-full flex flex-col">
                     <CardHeader>
                       <Image
-                        src={study.image}
+                        src={image.src}
                         alt={study.vessel}
-                        width={600}
-                        height={400}
+                        width={image.width}
+                        height={image.height}
                         className="rounded-t-lg object-cover aspect-[3/2]"
-                        data-ai-hint={study.aiHint}
+                        data-ai-hint={image.aiHint}
                         loading="lazy"
                       />
                       <CardTitle className="mt-4">{study.vessel}</CardTitle>
@@ -114,7 +111,7 @@ export function CaseStudiesSection() {
                   </Card>
                 </div>
               </CarouselItem>
-            ))}
+            )})}
           </CarouselContent>
           <CarouselPrevious className="absolute left-[-12px] scale-75 md:scale-100" />
           <CarouselNext className="absolute right-[-12px] scale-75 md:scale-100" />
